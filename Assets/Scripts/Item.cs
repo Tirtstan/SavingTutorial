@@ -7,12 +7,10 @@ public class Item : MonoBehaviour
     private ItemSO itemSO;
     private SpriteRenderer spriteRenderer;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-    public ItemSO GetItemSO() => itemSO;
 
     public virtual void RandomizeProperties()
     {
@@ -20,4 +18,6 @@ public class Item : MonoBehaviour
         transform.localScale = new Vector2(Random.Range(0.5f, 2f), Random.Range(0.5f, 2f));
         gameObject.name = $"{itemSO.Name}{Random.Range(0, 1000)}";
     }
+
+    public int GetId() => itemSO.Id;
 }
