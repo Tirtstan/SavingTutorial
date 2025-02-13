@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, ISaveable
 {
     [Header("Components")]
     [SerializeField]
@@ -20,4 +20,38 @@ public class Item : MonoBehaviour
     }
 
     public int GetId() => itemSO.Id;
+
+    public virtual ItemData GetData() =>
+        new(
+            GetId(),
+            gameObject.name,
+            transform.position,
+            transform.rotation.eulerAngles.z,
+            transform.localScale
+        );
+
+    public virtual void SetData(ItemData itemData)
+    {
+        gameObject.name = itemData.Name;
+        transform.rotation = Quaternion.Euler(0, 0, itemData.RotationZ);
+        transform.localScale = itemData.Scale;
+    }
+}
+
+public class ItemData
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public Vector2 Position { get; set; }
+    public float RotationZ { get; set; }
+    public Vector2 Scale { get; set; }
+
+    public ItemData(int id, string name, Vector2 position, float rotationZ, Vector2 scale)
+    {
+        Id = id;
+        Name = name;
+        Position = position;
+        RotationZ = rotationZ;
+        Scale = scale;
+    }
 }

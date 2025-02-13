@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97e2cee5b50b2af4f9aa6367fe780c19, type: 3}
-  m_Name: Compass
+  m_Name: Lamp
   m_EditorClassIdentifier: 
   Id: 1
-  Name: Compass
+  Name: Lamp
   Prefab: {fileID: 3427839867065851091, guid: 1ed9d704ae04643b688b88cd6a72abde, type: 3}
