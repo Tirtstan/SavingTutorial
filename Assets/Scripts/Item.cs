@@ -6,6 +6,11 @@ public class Item : MonoBehaviour, ISaveable
     [SerializeField]
     private ItemSO itemSO;
     private SpriteRenderer spriteRenderer;
+    public Color Color
+    {
+        get => spriteRenderer.color;
+        set => spriteRenderer.color = value;
+    }
 
     protected virtual void Awake()
     {
@@ -27,17 +32,20 @@ public class Item : MonoBehaviour, ISaveable
             gameObject.name,
             transform.position,
             transform.rotation.eulerAngles.z,
-            transform.localScale
+            transform.localScale,
+            Color
         );
 
-    public virtual void SetData(ItemData itemData)
+    public virtual void SetData(ItemData data)
     {
-        gameObject.name = itemData.Name;
-        transform.rotation = Quaternion.Euler(0, 0, itemData.RotationZ);
-        transform.localScale = itemData.Scale;
+        gameObject.name = data.Name;
+        transform.rotation = Quaternion.Euler(0, 0, data.RotationZ);
+        transform.localScale = data.Scale;
+        Color = data.Color;
     }
 }
 
+[MessagePack.MessagePackObject(keyAsPropertyName: true)]
 public class ItemData
 {
     public int Id { get; set; }
@@ -45,13 +53,24 @@ public class ItemData
     public Vector2 Position { get; set; }
     public float RotationZ { get; set; }
     public Vector2 Scale { get; set; }
+    public Color Color { get; set; }
 
-    public ItemData(int id, string name, Vector2 position, float rotationZ, Vector2 scale)
+    public ItemData(
+        int id,
+        string name,
+        Vector2 position,
+        float rotationZ,
+        Vector2 scale,
+        Color color
+    )
     {
         Id = id;
         Name = name;
         Position = position;
         RotationZ = rotationZ;
         Scale = scale;
+        Color = color;
     }
+
+    public Quaternion GetRotation() => Quaternion.Euler(0, 0, RotationZ);
 }

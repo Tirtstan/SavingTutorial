@@ -9,11 +9,8 @@ public class ObjectCreator : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.rightShiftKey.IsPressed())
-        {
-            if (Keyboard.current.cKey.wasPressedThisFrame)
-                CreateItems();
-        }
+        if (Keyboard.current.cKey.wasPressedThisFrame)
+            CreateItems();
     }
 
     private void CreateItems()
@@ -22,7 +19,7 @@ public class ObjectCreator : MonoBehaviour
         {
             GameObject prefab = ItemDatabase.Instance.GetRandomItem().Prefab;
 
-            Item item = Instantiate(prefab, Random.insideUnitCircle * 15f, GetRandomZ())
+            Item item = Instantiate(prefab, Random.insideUnitCircle * 10f, GetRandomZ())
                 .GetComponent<Item>();
             item.RandomizeProperties();
         }

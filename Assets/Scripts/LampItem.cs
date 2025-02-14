@@ -4,7 +4,6 @@ using UnityEngine.Rendering.Universal;
 public class LampItem : Item
 {
     private Light2D light2D;
-
     public float Intensity
     {
         get => light2D.intensity;
@@ -36,14 +35,15 @@ public class LampItem : Item
             transform.position,
             transform.rotation.eulerAngles.z,
             transform.localScale,
+            Color,
             Intensity,
             LampColor
         );
 
-    public override void SetData(ItemData itemData)
+    public override void SetData(ItemData data)
     {
-        base.SetData(itemData);
-        if (itemData is LampItemData lampItemData)
+        base.SetData(data);
+        if (data is LampItemData lampItemData)
         {
             Intensity = lampItemData.Intensity;
             LampColor = lampItemData.LampColor;
@@ -51,6 +51,7 @@ public class LampItem : Item
     }
 }
 
+[MessagePack.MessagePackObject(keyAsPropertyName: true)]
 public class LampItemData : ItemData
 {
     public float Intensity { get; set; }
@@ -62,10 +63,11 @@ public class LampItemData : ItemData
         Vector2 position,
         float rotationZ,
         Vector2 scale,
+        Color color,
         float intensity,
         Color lampColor
     )
-        : base(id, name, position, rotationZ, scale)
+        : base(id, name, position, rotationZ, scale, color)
     {
         Intensity = intensity;
         LampColor = lampColor;
