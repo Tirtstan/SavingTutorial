@@ -4,7 +4,7 @@ public class Item : MonoBehaviour, ISaveable
 {
     [Header("Components")]
     [SerializeField]
-    private ItemSO itemSO;
+    protected ItemSO itemSO;
     private SpriteRenderer spriteRenderer;
     public Color Color
     {

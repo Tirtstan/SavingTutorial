@@ -41,11 +41,12 @@ public class SaveLevel : MonoBehaviour
         LevelData levelData = new(saveables);
 
         byte[] bytes = MessagePackSerializer.Serialize(levelData, options);
+        string json = MessagePackSerializer.ConvertToJson(bytes);
+
         File.WriteAllBytes(Path.Combine(SavePath, "Level.dat"), bytes);
+        File.WriteAllText(Path.Combine(SavePath, "Level.json"), json);
 
-        Debug.Log("Saved with binary!");
-
-        WriteBinaryToJson(bytes);
+        Debug.Log("Saved!");
     }
 
     private void Load()
@@ -56,7 +57,7 @@ public class SaveLevel : MonoBehaviour
             byte[] bytes = File.ReadAllBytes(path);
             LevelData levelData = MessagePackSerializer.Deserialize<LevelData>(bytes, options);
 
-            StartCoroutine(LoadLevelDataAsync(levelData));
+            StartCoroutine(LoadLevelData(levelData));
         }
         else
         {
@@ -64,7 +65,7 @@ public class SaveLevel : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadLevelDataAsync(LevelData levelData)
+    private IEnumerator LoadLevelData(LevelData levelData)
     {
         for (int i = 0; i < levelData.Items.Count; i++)
         {
@@ -80,11 +81,5 @@ public class SaveLevel : MonoBehaviour
         }
 
         Debug.Log($"Loaded all {levelData.Items.Count} items!");
-    }
-
-    private void WriteBinaryToJson(byte[] bytes)
-    {
-        string json = MessagePackSerializer.ConvertToJson(bytes);
-        File.WriteAllText(Path.Combine(SavePath, "Level.json"), json);
     }
 }
